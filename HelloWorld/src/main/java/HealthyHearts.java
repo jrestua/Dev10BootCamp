@@ -30,7 +30,7 @@ public class HealthyHearts {
         double targetHeartRate = maxHeartRate * percent;
         
         System.out.println("Your maximum heart rate should be " + maxHeartRate + " beats per minute.");
-        System.out.println("Your target HR Zone is" + targetHeartRate + ".");
+        System.out.println("Your target HR Zone is " + targetHeartRate + ".");
     }
             
 }

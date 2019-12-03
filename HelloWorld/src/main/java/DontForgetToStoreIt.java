@@ -9,7 +9,6 @@
  * @author joe
  */
 
-//Hard Time Understanding
 import java.util.Scanner;
 
 public class DontForgetToStoreIt {
@@ -20,35 +19,24 @@ public class DontForgetToStoreIt {
         double pi = 3.14159;
         String cheese, color;
         
-        
-        String pii = "";
-        String meaningOfLifeAndEverythingg = "";
-        String cheesee = "";
-        String colorr = "";
+        cheese = "";
+        color = "";
 
         Scanner inputReader = new Scanner(System.in);
 
         System.out.println("Give me pi to at least 5 decimals: ");
-        inputReader.nextLine();
-        pii = inputReader.nextLine();
+        pi = inputReader.nextDouble();
 
         System.out.println("What is the meaning of life, the universe & everything? ");
-        inputReader.nextLine();
-        meaningOfLifeAndEverythingg = inputReader.nextLine();
+        meaningOfLifeAndEverything = inputReader.nextInt();
 
         System.out.println("What is your favorite kind of cheese? ");
-        inputReader.nextLine();
-        cheesee = inputReader.nextLine();
+        cheese = inputReader.next();
 
         System.out.println("Do you like the color red or blue more? ");
-        inputReader.nextLine();
-        colorr = inputReader.nextLine();
-        
-        pi = Integer.parseInt(pii);
-        meaningOfLifeAndEverything = Integer.parseInt(meaningOfLifeAndEverythingg);
-        
+        color = inputReader.next();
 
-            System.out.println("Ooh, " + colorr + " " + cheesee +" sounds delicious!");
+            System.out.println("Ooh, " + color + " " + cheese +" sounds delicious!");
             System.out.println("The circumference of life is " +( 2 * pi * meaningOfLifeAndEverything));
     }
 }
