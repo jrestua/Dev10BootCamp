@@ -123,7 +123,7 @@ public class RockPaperScissor {
             String choiceString = myScanner.nextLine();
             choice = Integer.parseInt(choiceString);
             if (choice<0 || choice>3){
-                System.out.println("ERROR Please enter a valid age\n");
+                System.out.println("ERROR Please enter a valid number.");
             }   
             else{
                 if (choice == 1){
