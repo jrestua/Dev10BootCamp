@@ -12,7 +12,7 @@
  *
  * @author joe
  */
-package com.joe.classmodeling;
+package classmodeling;
 
 import java.util.Scanner;
 
