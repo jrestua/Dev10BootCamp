@@ -98,9 +98,9 @@ public class VendingMachineView {
             } else if (change.compareTo(CoinsEnum.DIME.getValue()) >= 0) {
                 dimes++;
                 change = change.subtract(CoinsEnum.DIME.getValue());
-            } else if (change.compareTo(CoinsEnum.NICKLE.getValue()) >= 0) {
+            } else if (change.compareTo(CoinsEnum.NICKEL.getValue()) >= 0) {
                 nickels++;
-                change = change.subtract(CoinsEnum.NICKLE.getValue());
+                change = change.subtract(CoinsEnum.NICKEL.getValue());
             } else {
                 pennies++;
                 change = change.subtract(CoinsEnum.PENNY.getValue());
