@@ -10,12 +10,9 @@ package com.joe.vendingmachine.ui;
  * @author joe
  */
 public interface UserIO {
-    void print(String msg);
-    
-    void printDouble(double msg);
-    
-    void printInt(int msg);
-    
+
+    void print(String message);
+
     double readDouble(String prompt);
 
     double readDouble(String prompt, double min, double max);

@@ -5,14 +5,13 @@
  */
 package com.joe.vendingmachine.controller;
 
-import com.joe.vendingmachine.dao.VendingMachineDao;
-import com.joe.vendingmachine.dao.VendingMachineDaoException;
-import com.joe.vendingmachine.dao.VendingMachineDaoFileImpl;
+import com.joe.vendingmachine.dao.VendingMachinePersistenceException;
 import com.joe.vendingmachine.dto.Inventory;
-import com.joe.vendingmachine.ui.UserIO;
-import com.joe.vendingmachine.ui.UserIOConsoleImpl;
+import com.joe.vendingmachine.service.InsufficientFundsException;
+import com.joe.vendingmachine.service.SoldOutInventoryException;
+import com.joe.vendingmachine.service.VendingMachineServiceLayer;
 import com.joe.vendingmachine.ui.VendingMachineView;
-import java.text.DecimalFormat;
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -21,161 +20,63 @@ import java.util.List;
  */
 public class VendingMachineController {
 
-    DecimalFormat df = new DecimalFormat("0.00");
-
-    private UserIO io = new UserIOConsoleImpl();
     VendingMachineView view;
-    VendingMachineDao dao;
-    VendingMachineDaoFileImpl daoFI;
+    private VendingMachineServiceLayer service;
 
-    public VendingMachineController(VendingMachineDao dao, VendingMachineView view) {
-        this.dao = dao;
+    public VendingMachineController(VendingMachineServiceLayer service, VendingMachineView view) {
+        this.service = service;
         this.view = view;
     }
 
-    public void run() throws VendingMachineDaoException {
+    public void run() {
         boolean keepGoing = true;
         int menuSelection = 0;
-        while (keepGoing) {
-            listInventories();
-            io.print("1. Gummy Bears");
-            io.print("2. Soda");
-            io.print("3. Water");
-            io.print("4. Chips");
-            io.print("5. Pudding");
-            io.print("6. Exit");
+        try {
+            while (keepGoing) {
+                menuSelection = getMenuSelection();
 
-            io.print("");
-            io.print("Total Amount Inserted = ");
-            double addChangeAmount = addChange();
-            io.print(df.format(addChange()));
-
-            menuSelection = io.readInt("Please select from the above choices. (1-6)", 1, 6);
-            
-            String vendingMachineItem = "";
-            
-            if (menuSelection == 1){
-                vendingMachineItem = "Gummy Bears";
+                switch (menuSelection) {
+                    case 1:
+                        vendingMachineMenu();
+                        break;
+                    case 2:
+                        keepGoing = false;
+                        break;
+                }
             }
-            if (menuSelection == 2){
-                vendingMachineItem = "Soda";
-            }
-            if (menuSelection == 3){
-                vendingMachineItem = "Water";
-            }
-            if (menuSelection == 4){
-                vendingMachineItem = "Chips";
-            }
-            if (menuSelection == 5){
-                vendingMachineItem = "Pudding";
-            }
-
-
-            Inventory inventory = dao.getInventory(vendingMachineItem);
-
-            switch (menuSelection) {
-
-                case 1:
-                    
-                    if (addChangeAmount >= view.comparePrice(inventory)) {
-                        int stock = view.subtractStock(inventory);
-                        int newStock = stock-=1;
-                        inventory.setInStock(newStock);
-                    }
-                    break;
-                case 2:
-                    if (addChangeAmount >= view.comparePrice(inventory)) {
-                        System.out.println("It works");
-                    }
-                    break;
-                case 3:
-                    if (addChangeAmount >= view.comparePrice(inventory)) {
-                        System.out.println("It works");
-                    }
-                    break;
-                case 4:
-                    if (addChangeAmount >= view.comparePrice(inventory)) {
-                        System.out.println("It works");
-                    }
-                    break;
-                case 5:
-                    if (addChangeAmount >= view.comparePrice(inventory)) {
-                        System.out.println("It works");
-                    }
-                    break;
-                case 6:
-                    keepGoing = false;
-                    break;
-                default:
-                    unknownCommand();
-            }
-
+            exitMessage();
+        } catch (VendingMachinePersistenceException e) {
+            view.displayErrorMessage(e.getMessage());
         }
-        exitMessage();
     }
 
     private int getMenuSelection() {
         return view.printMenuAndGetSelection();
     }
 
-    public void listInventories() {
-        view.displayDisplayAllBanner();
-        List<Inventory> inventoryList = dao.getAllInventory();
-        view.displayInventoryList(inventoryList);
-        view.selectionDisplayBanner();
-    }
+    private void vendingMachineMenu() throws VendingMachinePersistenceException {
+        List<Inventory> itemList = service.getAllItems();
+        view.displayVendingMachineBanner();
+        boolean hasErrors = false;
+        do {
+            BigDecimal userMoney = view.askUserMoney(itemList);
+            Inventory soldItem = view.purchaseItem(itemList);
+            System.out.println("Purchasing: " + soldItem.getName());
+            BigDecimal itemCost = soldItem.getPrice();
+            System.out.println("Cost: " + itemCost);
+            try {
+                service.buyItem(itemList.indexOf(soldItem), userMoney);
 
-
-    private void unknownCommand() {
-        view.displayUnknownCommandBanner();
+                view.returnChange(userMoney, itemCost);
+                hasErrors = false;
+            } catch (InsufficientFundsException | SoldOutInventoryException e) {
+                hasErrors = true;
+                view.displayErrorMessage(e.getMessage());
+            }
+        } while (hasErrors);
     }
 
     private void exitMessage() {
         view.displayExitBanner();
     }
-
-    private String getYOrNAddChange() {
-        return view.printYOrNAddChange();
-    }
-
-    private double addChange() {
-        String keepAdding = "y";
-        Double money = 0.00;
-        do {
-            String coin = io.readString("Insert Coin (penny/nickel/dime/quarter): ");
-            if (coin.equals("penny")) {
-                money += .01;
-                keepAdding = getYOrNAddChange();
-            }
-            if (coin.equals("nickel")) {
-                money += .05;
-                keepAdding = getYOrNAddChange();
-            }
-            if (coin.equals("dime")) {
-                money += .10;
-                keepAdding = getYOrNAddChange();
-            }
-            if (coin.equals("quarter")) {
-                money += .25;
-                keepAdding = getYOrNAddChange();
-            }
-        } while (keepAdding.equals("y"));
-        return money;
-    }
-
-    private void viewInventory() {
-        String name = view.getInventoryChoice();
-        Inventory inventory = dao.getInventory(name);
-        view.displayInventory(inventory);
-    }
-    
-        private void updateInventory(Inventory updatedInventory) {
-    
-        do {
-            Inventory newStockInventory = view.getNewMp3Info();
-            dao.removeInventory(updatedInventory.setInStock(newStock), updatedInventory);
-        } while (keepAdding.equals("y"));
-    }
-       
-
 }

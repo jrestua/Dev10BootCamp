@@ -5,13 +5,11 @@
  */
 package com.joe.vendingmachine.ui;
 
-import com.joe.vendingmachine.controller.VendingMachineController;
-import com.joe.vendingmachine.dao.VendingMachineDao;
-import com.joe.vendingmachine.dao.VendingMachineDaoFileImpl;
+import com.joe.vendingmachine.dto.CoinsEnum;
 import com.joe.vendingmachine.dto.Inventory;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.DecimalFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 /**
@@ -20,96 +18,117 @@ import java.util.List;
  */
 public class VendingMachineView {
 
-    DecimalFormat df = new DecimalFormat("0.00");
-
     private UserIO io;
-    VendingMachineDao dao = new VendingMachineDaoFileImpl();
+    CoinsEnum coinValues;
 
     public VendingMachineView(UserIO io) {
         this.io = io;
     }
 
     public int printMenuAndGetSelection() {
-        displayDisplayAllBanner();
-        List<Inventory> inventoryList = dao.getAllInventory();
-        displayInventoryList(inventoryList);
-        io.print("1. Gummy Bears");
-        io.print("2. Soda");
-        io.print("3. Water");
-        io.print("4. Chips");
-        io.print("5. Pudding");
-        io.print("6. Exit");
-
-        return io.readInt("Please select from the above choices. (1-6)", 1, 6);
-    }
-
-    public void displayInventoryList(List<Inventory> inventoryList) {
-        for (Inventory currentInventory : inventoryList) {
-            io.print("Item: " + currentInventory.getName() + " - "
-                    + "Price: " + "$" + df.format(currentInventory.getCost()) + " - "
-                    + "Amount in Stock: " + currentInventory.getInStock());
-        }
-    }
-
-    public void displayDisplayAllBanner() {
-        io.print("=== Display Vending Machine Stock ===");
-    }
-
-    public void selectionDisplayBanner() {
         io.print("");
-        io.print("=== Please Select Item ===");
+        io.print("Vending Machine");
+        io.print("1. Enter Vending Machine");
+        io.print("2. Leave Program");
+
+        return io.readInt("Please select from the above choices (1 or 2).", 1, 2);
     }
 
-    public String getInventoryChoice() {
-        return io.readString("Please enter what item you would like?");
+    public BigDecimal askUserMoney(List<Inventory> itemList) {
+        io.print("Inventory:");
+        itemList.forEach((i) -> {
+            if (i.getInStock() > 0) {
+                io.print("(" + (itemList.indexOf(i) + 1) + ") " + ("Item: ") + i.getName()
+                        + " $" + i.getPrice() + " Amount In Stock: " + i.getInStock());
+            }
+        });
+
+        BigDecimal userMoney = null;
+        do {
+            DecimalFormat df = new DecimalFormat("0.00");
+            String keepAdding = "y";
+            double amountTotal = 0.00;
+            do {
+                String input = io.readString("Please Insert A Coin (quarter/dime/nickel/penny): ");
+                if (input.equals("quarter")) {
+                    amountTotal += .25;
+                }
+                if (input.equals("dime")) {
+                    amountTotal += .10;
+                }
+                if (input.equals("nickel")) {
+                    amountTotal += .05;
+                }
+                if (input.equals("penny")) {
+                    amountTotal += .01;
+                }
+                keepAdding = printYOrNAddChange();
+                if (keepAdding.equals("y")) {
+                    io.print("Your Total Amount Inserted: " + df.format(amountTotal));
+                }
+                if (keepAdding.equals("n")) {
+                    io.print("Your Total Amount Inserted: " + df.format(amountTotal));
+                }
+                userMoney = new BigDecimal(amountTotal);
+            } while (keepAdding.equals("y"));
+
+            itemList.forEach((i) -> {
+                if (i.getInStock() > 0) {
+                    io.print("[" + (itemList.indexOf(i) + 1) + "] " + i.getName() + " $" + i.getPrice() + " QTY: " + i.getInStock());
+                }
+            });
+
+        } while (userMoney == null);
+        userMoney = userMoney.setScale(2, RoundingMode.HALF_UP);
+        return userMoney;
     }
 
-    public void displayExitBanner() {
-        io.print("Good Bye!!!");
+    public Inventory purchaseItem(List<Inventory> itemList) {
+        int userPick = io.readInt("Please select an item.", 1, itemList.size());
+        return itemList.get(userPick - 1);
     }
 
-    public void displayUnknownCommandBanner() {
-        io.print("Unknown Command!!!");
+    public void returnChange(BigDecimal userMoney, BigDecimal itemCost) {
+        int quarters = 0, dimes = 0, nickels = 0, pennies = 0;
+        BigDecimal change = userMoney.subtract(itemCost);
+        while (change.compareTo(BigDecimal.ZERO) > 0) {
+            if (change.compareTo(CoinsEnum.QUARTER.getValue()) >= 0) {
+                quarters++;
+                change = change.subtract(CoinsEnum.QUARTER.getValue());
+            } else if (change.compareTo(CoinsEnum.DIME.getValue()) >= 0) {
+                dimes++;
+                change = change.subtract(CoinsEnum.DIME.getValue());
+            } else if (change.compareTo(CoinsEnum.NICKLE.getValue()) >= 0) {
+                nickels++;
+                change = change.subtract(CoinsEnum.NICKLE.getValue());
+            } else {
+                pennies++;
+                change = change.subtract(CoinsEnum.PENNY.getValue());
+            }
+        }
+
+        io.print("Returning your change: ");
+        io.print(quarters + " - Quarter(s)");
+        io.print(dimes + " - Dime(s)");
+        io.print(nickels + " - Nickel(s)");
+        io.print(pennies + " - Penny(s)");
+    }
+
+    public void displayVendingMachineBanner() {
+        io.print("*** Are You Hungry? ***");
     }
 
     public String printYOrNAddChange() {
         return io.readString("Would you like to keep adding coins? y/n");
     }
 
-    public String getItemChoice() {
-        return io.readString("Please enter the Student ID.");
+    public void displayExitBanner() {
+        io.print("Thank you. Come again");
     }
 
-    public void displayInventory(Inventory inventory) {
-        if (inventory != null) {
-            io.print(inventory.getName());
-            io.printDouble(inventory.getCost());
-            io.printInt(inventory.getInStock());
-            io.print("");
-        } else {
-            io.print("No such item.");
-        }
-        io.readString("Please hit enter to continue.");
+    public void displayErrorMessage(String errorMsg) {
+        io.print("=== ERROR ===");
+        io.print(errorMsg);
     }
 
-    public double comparePrice(Inventory inventory) {
-        double cost = 0.00;
-        if (inventory != null) {
-            cost = inventory.getCost();
-    }
-        return cost;
-}
-    
-        public int subtractStock(Inventory inventory) {
-        int stockAmount = 0;
-        if (inventory != null) {
-            stockAmount = inventory.getInStock();
-    }
-        return stockAmount;
-}
-        
-          
-
-            
-    
 }

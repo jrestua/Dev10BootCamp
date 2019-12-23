@@ -12,14 +12,12 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.time.LocalDate;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -27,104 +25,92 @@ import java.util.logging.Logger;
  */
 public class VendingMachineDaoFileImpl implements VendingMachineDao {
 
-    private Map<String, Inventory> inventories = new HashMap<>();
+    private Map<String, Inventory> itemsMap = new HashMap<>();
 
-    public static final String STOCK_FILE = "stock.txt";
-    public static final String DELIMITER = "::";
+    public static final String INVENTORY_FILE = "inventory.txt";
+    public static final String DELIMETER = "::";
 
-    @Override
-    public List<Inventory> getAllInventory() {
-        try {
-            loadInventory();
-        } catch (VendingMachineDaoException ex) {
-            Logger.getLogger(VendingMachineDaoFileImpl.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return new ArrayList(inventories.values());
-    }
-    
-    @Override
-public Inventory getInventory(String name) {
-    return inventories.get(name);
-}
+    private Inventory unmarshallItem(String itemAsText) {
+        String[] itemTokens = itemAsText.split(DELIMETER);
+        String name = itemTokens[0];
+        BigDecimal price = new BigDecimal(itemTokens[1]);
 
-    @Override
-    public Inventory editInventory(String name, Inventory inventory) {
-        Inventory editedInventory = inventories.replace(name, inventory);
-        return editedInventory;
-    }
-    
-    
+        Inventory itemFromFile = new Inventory(name, price);
 
-    private Inventory unmarshallInventory(String inventoryAsText) {
-        String[] inventoryTokens = inventoryAsText.split(DELIMITER);
+        itemFromFile.setInStock(Integer.parseInt(itemTokens[2]));
 
-        // Given the pattern above, the student Id is in index 0 of the array.
-        String name = inventoryTokens[0];
-
-        Inventory inventoryFromFile = new Inventory(name);
-
-        // Index 1 - cost
-        inventoryFromFile.setCost(Double.parseDouble(inventoryTokens[1]));
-
-        // Index 2 - inStock
-        inventoryFromFile.setInStock(Integer.parseInt(inventoryTokens[2]));
-
-        // We have now created a student! Return i
-        return inventoryFromFile;
+        return itemFromFile;
     }
 
-    private void loadInventory() throws VendingMachineDaoException {
+    private void loadInventory() throws VendingMachinePersistenceException {
         Scanner scanner;
 
         try {
-            scanner = new Scanner(
-                    new BufferedReader(
-                            new FileReader(STOCK_FILE)));
+            scanner = new Scanner(new BufferedReader(new FileReader(INVENTORY_FILE)));
         } catch (FileNotFoundException e) {
-            throw new VendingMachineDaoException(
-                    "-_- Could not load roster data into memory.", e);
+            throw new VendingMachinePersistenceException("-_- Could not load roster data into memory.", e);
         }
         String currentLine;
-        Inventory currentInventory;
+        Inventory currentItem;
         while (scanner.hasNextLine()) {
             currentLine = scanner.nextLine();
-            currentInventory = unmarshallInventory(currentLine);
+            currentItem = unmarshallItem(currentLine);
 
-            inventories.put(currentInventory.getName(), currentInventory);
+            itemsMap.put(currentItem.getName(), currentItem);
         }
         scanner.close();
     }
 
-    private String marshallInventory(Inventory aInventory) {
-
-        String inventoryAsText = aInventory.getName() + DELIMITER;
-
-        inventoryAsText += aInventory.getCost() + DELIMITER;
-
-        inventoryAsText += aInventory.getInStock() + DELIMITER;
-
-        return inventoryAsText;
+    private String marshallItem(Inventory anItem) {
+        //item name
+        String itemAsText = anItem.getName() + DELIMETER;
+        //item price
+        itemAsText += anItem.getPrice() + DELIMETER;
+        //item count
+        itemAsText += anItem.getInStock();
+        //return item
+        return itemAsText;
     }
 
-
-    private void writeInventory() throws VendingMachineDaoException {
+    private void writeInventory() throws VendingMachinePersistenceException {
         PrintWriter out;
 
         try {
-            out = new PrintWriter(new FileWriter(STOCK_FILE));
+            out = new PrintWriter(new FileWriter(INVENTORY_FILE));
         } catch (IOException e) {
-            throw new VendingMachineDaoException(
-                    "Could not save student data.", e);
+            throw new VendingMachinePersistenceException(
+                    "Inventory data could not be saved.", e);
         }
 
-        String inventoryAsText;
-        List<Inventory> inventoryList = this.getAllInventory();
-        for (Inventory currentInventory : inventoryList) {
-            inventoryAsText = marshallInventory(currentInventory);
-            out.println(inventoryAsText);
+        String itemAsText;
+        List<Inventory> itemList = this.getAllItemsInInventory();
+        for (Inventory currentItem : itemList) {
+            itemAsText = marshallItem(currentItem);
+            out.println(itemAsText);
             out.flush();
         }
         out.close();
     }
 
+    @Override
+    public List<Inventory> getAllItemsInInventory() throws VendingMachinePersistenceException {
+        loadInventory();
+        return new ArrayList<Inventory>(itemsMap.values());
+    }
+
+    @Override
+    public Inventory updateItemQuantity(String name, Inventory newItem) throws VendingMachinePersistenceException {
+        loadInventory();
+        Inventory updatedItem = itemsMap.put(name, newItem);
+        writeInventory();
+        return updatedItem;
+    }
+
+    @Override
+    public Inventory removeItem(String name) throws VendingMachinePersistenceException {
+        loadInventory();
+        Inventory removedItem = itemsMap.remove(name);
+        writeInventory();
+        return removedItem;
+    }
 }

@@ -3,20 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.joe.vendingmachine.dao;
+package com.joe.vendingmachine.service;
 
 /**
  *
  * @author joe
  */
-public class VendingMachineDaoException extends Exception{
+public class SoldOutInventoryException extends Exception{
     
-    public VendingMachineDaoException(String message) {
+    public SoldOutInventoryException(String message) {
         super(message);
     }
     
-    public VendingMachineDaoException(String message, Throwable cause) {
+    public SoldOutInventoryException(String message, Throwable cause) {
         super(message, cause);
     }
-    
 }

@@ -14,10 +14,9 @@ import java.util.List;
  */
 public interface VendingMachineDao {
     
-    List<Inventory> getAllInventory();
+    List<Inventory> getAllItemsInInventory() throws VendingMachinePersistenceException;
     
-    Inventory getInventory (String name);
-
-   Inventory removeInventory(String name, Inventory inventory);
+    Inventory updateItemQuantity(String name, Inventory newQuantity) throws VendingMachinePersistenceException;
     
+    Inventory removeItem(String name) throws VendingMachinePersistenceException;    
 }

@@ -5,39 +5,71 @@
  */
 package com.joe.vendingmachine.dto;
 
+import java.math.BigDecimal;
+import java.util.Objects;
+
 /**
  *
  * @author joe
  */
 public class Inventory {
+    
     private String name;
-    private double cost;
+    private BigDecimal price;
     private int inStock;
     
-    public Inventory(String name) {
+    public Inventory(String name, BigDecimal price) {
         this.name = name;
-    }
-
+        this.price = price;
+    } 
+    
     public String getName() {
-        return name;
+        return this.name;
     }
-
     
-    public double getCost() {
-        return cost;
+    public BigDecimal getPrice() {
+        return this.price;
     }
-
     
-    public void setCost(double cost) {
-        this.cost = cost;
-    }
-
     public int getInStock() {
-        return inStock;
+        return this.inStock;
     }
-
+    
     public void setInStock(int inStock) {
         this.inStock = inStock;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 97 * hash + Objects.hashCode(this.name);
+        hash = 97 * hash + Objects.hashCode(this.price);
+        hash = 97 * hash + this.inStock;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Inventory inv = (Inventory) obj;
+        if (this.inStock != inv.inStock) {
+            return false;
+        }
+        if (!Objects.equals(this.name, inv.name)) {
+            return false;
+        }
+        if (!Objects.equals(this.price, inv.price)) {
+            return false;
+        }
+        return true;
     }
     
     

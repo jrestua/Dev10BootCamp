@@ -11,10 +11,6 @@ package com.joe.vendingmachine.ui;
  */
 import java.util.Scanner;
 
-/**
- *
- * @author joe
- */
 public class UserIOConsoleImpl implements UserIO {
 
     Scanner myScanner = new Scanner(System.in);
@@ -23,18 +19,7 @@ public class UserIOConsoleImpl implements UserIO {
     public void print(String message) {
         System.out.println(message);
     }
-
-    @Override
-    public void printDouble(double message) {
-        System.out.println(message);
-    }
-    
-            @Override
-    public void printInt(int message) {
-        System.out.println(message);
-    }
-
-
+   
     @Override
     public double readDouble(String prompt) {
         System.out.println(prompt);
@@ -147,17 +132,7 @@ public class UserIOConsoleImpl implements UserIO {
 
         return input;
     }
-    /*
-    @Override
-    public int readInt(String string, int i) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
-
-    @Override
-    public void print(int count) {
-        System.out.println(count);
-    }
-     */
+    
 
 }
