@@ -10,6 +10,7 @@ package com.joe.classroster.ui;
  * @author joe
  */
 public interface UserIO {
+
     void print(String msg);
 
     double readDouble(String prompt);

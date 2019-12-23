@@ -19,7 +19,7 @@ public class UserIOConsoleImpl implements UserIO {
     public void print(String message) {
         System.out.println(message);
     }
-   
+
     @Override
     public double readDouble(String prompt) {
         System.out.println(prompt);
@@ -132,6 +132,5 @@ public class UserIOConsoleImpl implements UserIO {
 
         return input;
     }
-    
 
 }

@@ -1,0 +1,8 @@
+com/joe/mp3library/ui/UserIO.class
+com/joe/mp3library/dao/Mp3LibraryDao.class
+com/joe/mp3library/ui/Mp3LibraryView.class
+com/joe/mp3library/ui/UserIOConsoleImpl.class
+com/joe/mp3library/dao/Mp3LibraryDaoFileImpl.class
+com/joe/mp3library/controller/Mp3LibraryController.class
+com/joe/mp3library/dto/Mp3.class
+com/joe/mp3library/App.class

@@ -3,19 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.joe.classroster.dao;
+package com.joe.mp3library.dao;
 
 /**
  *
  * @author joe
  */
-public class ClassRosterDaoException extends Exception{
+public class Mp3LibraryDaoException extends Exception{
     
-    public ClassRosterDaoException(String message) {
+    public Mp3LibraryDaoException(String message) {
         super(message);
     }
     
-    public ClassRosterDaoException(String message, Throwable cause) {
+    public Mp3LibraryDaoException(String message, Throwable cause) {
         super(message, cause);
     }
     
