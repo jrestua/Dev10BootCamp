@@ -23,9 +23,8 @@ public class VendingMachineView {
     CoinsEnum coinValues;
 
     //Constructor for dependency injection
-    public VendingMachineView(UserIO io, CoinsEnum coinValues) {
+    public VendingMachineView(UserIO io) {
         this.io = io;
-        this.coinValues = coinValues;
     }
     
     //Prints first menu.
