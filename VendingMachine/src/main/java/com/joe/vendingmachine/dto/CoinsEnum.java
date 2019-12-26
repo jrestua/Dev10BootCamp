@@ -12,6 +12,9 @@ import java.math.BigDecimal;
  * @author joe
  */
 public enum CoinsEnum {
+    
+    //Used for Enum constants. 
+    
     PENNY(new BigDecimal("0.01")),
     NICKEL(new BigDecimal("0.05")),
     DIME(new BigDecimal("0.10")),

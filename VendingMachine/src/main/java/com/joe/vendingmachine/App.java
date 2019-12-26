@@ -20,8 +20,8 @@ import com.joe.vendingmachine.ui.VendingMachineView;
  *
  * @author joe
  */
+//Runs everything from here.
 public class App {
-
     public static void main(String[] args) {
         UserIO myIo = new UserIOConsoleImpl();
         VendingMachineView myView = new VendingMachineView(myIo);

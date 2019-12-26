@@ -20,6 +20,7 @@ import java.util.List;
  */
 public class VendingMachineController {
 
+    //Dependency Injection
     VendingMachineView view;
     private VendingMachineServiceLayer service;
 
@@ -28,6 +29,7 @@ public class VendingMachineController {
         this.view = view;
     }
 
+    //Called on in app, order in which things are ran
     public void run() {
         boolean keepGoing = true;
         int menuSelection = 0;
@@ -49,11 +51,15 @@ public class VendingMachineController {
             view.displayErrorMessage(e.getMessage());
         }
     }
-
+    
+    //Prints out Menu from view file. Gives user option to enter vending machine or quite.
     private int getMenuSelection() {
         return view.printMenuAndGetSelection();
     }
-
+    
+    //Once entered in vending machine, follows this method to display whats inside, add change into
+    //machine, displays money entered, ask user what they want, vends product, and returns change.
+    //If not enough money, throws error.
     private void vendingMachineMenu() throws VendingMachinePersistenceException {
         List<Inventory> itemList = service.getAllItems();
         view.displayVendingMachineBanner();

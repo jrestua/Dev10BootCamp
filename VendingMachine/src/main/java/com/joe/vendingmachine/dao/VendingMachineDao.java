@@ -14,6 +14,7 @@ import java.util.List;
  */
 public interface VendingMachineDao {
     
+    //Methods for retrieving and updating data from source. 
     List<Inventory> getAllItemsInInventory() throws VendingMachinePersistenceException;
     
     Inventory updateItemQuantity(String name, Inventory newQuantity) throws VendingMachinePersistenceException;

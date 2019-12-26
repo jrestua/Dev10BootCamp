@@ -24,6 +24,9 @@ import java.util.Scanner;
  * @author joe
  */
 public class VendingMachineDaoFileImpl implements VendingMachineDao {
+    
+    //File that marshalls, unmarshalls,writes and loads to external file. Also methods
+    //are written out here for retrieving and updating data.
 
     private Map<String, Inventory> itemsMap = new HashMap<>();
 

@@ -17,14 +17,18 @@ import java.util.List;
  * @author joe
  */
 public class VendingMachineView {
-
+    
+    //Dependency injection
     private UserIO io;
     CoinsEnum coinValues;
 
-    public VendingMachineView(UserIO io) {
+    //Constructor for dependency injection
+    public VendingMachineView(UserIO io, CoinsEnum coinValues) {
         this.io = io;
+        this.coinValues = coinValues;
     }
-
+    
+    //Prints first menu.
     public int printMenuAndGetSelection() {
         io.print("");
         io.print("Vending Machine");
@@ -42,7 +46,8 @@ public class VendingMachineView {
                         + " $" + i.getPrice() + " Amount In Stock: " + i.getInStock());
             }
         });
-
+        
+        //Ask user for change to insert in machine.
         BigDecimal userMoney = null;
         do {
             DecimalFormat df = new DecimalFormat("0.00");
@@ -83,11 +88,13 @@ public class VendingMachineView {
         return userMoney;
     }
 
+    //Subtracts item from inventory
     public Inventory purchaseItem(List<Inventory> itemList) {
         int userPick = io.readInt("Please select an item.", 1, itemList.size());
         return itemList.get(userPick - 1);
     }
-
+    
+    //Returns change
     public void returnChange(BigDecimal userMoney, BigDecimal itemCost) {
         int quarters = 0, dimes = 0, nickels = 0, pennies = 0;
         BigDecimal change = userMoney.subtract(itemCost);

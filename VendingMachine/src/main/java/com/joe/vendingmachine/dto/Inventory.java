@@ -14,6 +14,9 @@ import java.util.Objects;
  */
 public class Inventory {
     
+    //Variables are declared with getters and setters to be used throughout program.
+    //Used for retrieving and updating the data. 
+    
     private String name;
     private BigDecimal price;
     private int inStock;

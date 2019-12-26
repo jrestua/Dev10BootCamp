@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
  *
  * @author joe
  */
+//File writes logs into external file to log time when vending machine was in use and what was bought.
 public class VendingMachineAuditDaoFileImpl implements VendingMachineAuditDao {
 
     public static final String AUDIT_FILE = "audit.txt";
