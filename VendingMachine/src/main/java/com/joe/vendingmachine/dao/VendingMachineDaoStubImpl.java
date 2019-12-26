@@ -15,8 +15,6 @@ import java.util.List;
  * @author joe
  */
 public class VendingMachineDaoStubImpl implements VendingMachineDao{
-    //For unit testing purposes.
-    //Different test cases to test out functionality of predefined methods.
     
     Inventory onlyItem;
     List<Inventory> itemList = new ArrayList<>();

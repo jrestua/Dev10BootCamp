@@ -33,7 +33,7 @@ public class ClassRosterDaoTest {
     public static void tearDownClass() {
     }
 
-    @BeforeAll
+    @BeforeEach
     public void setUp() throws Exception {
         List<Student> studentList = dao.getAllStudents();
         for (Student student : studentList) {

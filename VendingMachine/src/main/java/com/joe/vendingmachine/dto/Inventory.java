@@ -45,9 +45,9 @@ public class Inventory {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 97 * hash + Objects.hashCode(this.name);
-        hash = 97 * hash + Objects.hashCode(this.price);
-        hash = 97 * hash + this.inStock;
+        hash = 61 * hash + Objects.hashCode(this.name);
+        hash = 61 * hash + Objects.hashCode(this.price);
+        hash = 61 * hash + this.inStock;
         return hash;
     }
 
@@ -62,18 +62,19 @@ public class Inventory {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Inventory inv = (Inventory) obj;
-        if (this.inStock != inv.inStock) {
+        final Inventory other = (Inventory) obj;
+        if (this.inStock != other.inStock) {
             return false;
         }
-        if (!Objects.equals(this.name, inv.name)) {
+        if (!Objects.equals(this.name, other.name)) {
             return false;
         }
-        if (!Objects.equals(this.price, inv.price)) {
+        if (!Objects.equals(this.price, other.price)) {
             return false;
         }
         return true;
     }
+
     
     
 }
