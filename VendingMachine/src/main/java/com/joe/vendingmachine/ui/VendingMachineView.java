@@ -74,7 +74,7 @@ public class VendingMachineView {
 
             itemList.forEach((i) -> {
                 if (i.getInStock() > 0) {
-                    io.print("[" + (itemList.indexOf(i) + 1) + "] " + i.getName() + " $" + i.getPrice() + " QTY: " + i.getInStock());
+                    io.print("(" + (itemList.indexOf(i) + 1) + ") " + i.getName() + " $" + i.getPrice() + " Amount In Stock: " + i.getInStock());
                 }
             });
 
