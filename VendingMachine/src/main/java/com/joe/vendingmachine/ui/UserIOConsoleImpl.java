@@ -86,8 +86,15 @@ public class UserIOConsoleImpl implements UserIO {
     public int readInt(String prompt, int min, int max) {
         System.out.println(prompt);
         String stringNumber = myScanner.nextLine();
-        int number = Integer.parseInt(stringNumber);
-
+        int number = 0;
+        try 
+        {
+        number = Integer.parseInt(stringNumber);
+        return number;
+        }
+        catch(NumberFormatException e){
+            System.out.println(stringNumber + " is not a valid integer number.");  
+        }
         while (number < min || number > max) {
 
             if (number < min || number > max) {

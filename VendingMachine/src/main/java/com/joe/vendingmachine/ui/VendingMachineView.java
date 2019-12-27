@@ -33,14 +33,19 @@ public class VendingMachineView {
         io.print("Vending Machine");
         io.print("1. Enter Vending Machine");
         io.print("2. Leave Program");
-
+        try{
         return io.readInt("Please select from the above choices (1 or 2).", 1, 2);
+        }
+        catch (NumberFormatException e){
+        io.print("Invalid Input");
+        return 0;
+        }
     }
 
     public BigDecimal askUserMoney(List<Inventory> itemList) {
         io.print("Inventory:");
         itemList.forEach((i) -> {
-            if (i.getInStock() > 0) {
+            if (i.getInStock() >= 0) {
                 io.print("(" + (itemList.indexOf(i) + 1) + ") " + ("Item: ") + i.getName()
                         + " $" + i.getPrice() + " Amount In Stock: " + i.getInStock());
             }
@@ -77,7 +82,7 @@ public class VendingMachineView {
             } while (keepAdding.equals("y"));
 
             itemList.forEach((i) -> {
-                if (i.getInStock() > 0) {
+                if (i.getInStock() >= 0) {
                     io.print("(" + (itemList.indexOf(i) + 1) + ") " + i.getName() + " $" + i.getPrice() + " Amount In Stock: " + i.getInStock());
                 }
             });
