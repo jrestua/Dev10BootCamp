@@ -6,6 +6,8 @@
 package com.joe.mp3library.dao;
 
 import com.joe.mp3library.dto.Mp3;
+import java.time.LocalDate;
+import java.time.Month;
 import java.util.List;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.AfterAll;
@@ -54,7 +56,7 @@ public class Mp3LibraryDaoTest {
         Mp3 mp3 = new Mp3("Love");
         mp3.setArtist("Keiysha Cole");
         mp3.setAlbum("Greatest Hits");
-        mp3.setYear("2007");
+        mp3.setReleaseDate(LocalDate.of(2014, Month.JANUARY, 1));
         mp3.setGenre("Rnb");
         mp3.setNotes("N/a");
         
@@ -71,7 +73,7 @@ public class Mp3LibraryDaoTest {
         Mp3 mp3 = new Mp3("Love");
         mp3.setArtist("Keiysha Cole");
         mp3.setAlbum("Greatest Hits");
-        mp3.setYear("2007");
+        mp3.setReleaseDate(LocalDate.of(2014, Month.JANUARY, 1)); 
         mp3.setGenre("Rnb");
         mp3.setNotes("N/a");
         
@@ -80,7 +82,7 @@ public class Mp3LibraryDaoTest {
         Mp3 mp32 = new Mp3("I Remember");
         mp32.setArtist("Keiysha Cole");
         mp32.setAlbum("Greatest Hits");
-        mp32.setYear("2007");
+        mp32.setReleaseDate(LocalDate.of(2014, Month.JANUARY, 1));
         mp32.setGenre("Rnb");
         mp32.setNotes("N/a");
         
@@ -97,7 +99,7 @@ public class Mp3LibraryDaoTest {
          Mp3 mp3 = new Mp3("Love");
         mp3.setArtist("Keiysha Cole");
         mp3.setAlbum("Greatest Hits");
-        mp3.setYear("2007");
+        mp3.setReleaseDate(LocalDate.of(2014, Month.JANUARY, 1));
         mp3.setGenre("Rnb");
         mp3.setNotes("N/a");
         
@@ -106,7 +108,7 @@ public class Mp3LibraryDaoTest {
         Mp3 mp32 = new Mp3("I Remember");
         mp32.setArtist("Keiysha Cole");
         mp32.setAlbum("Greatest Hits");
-        mp32.setYear("2007");
+        mp32.setReleaseDate(LocalDate.of(2014, Month.JANUARY, 1));
         mp32.setGenre("Rnb");
         mp32.setNotes("N/a");
         

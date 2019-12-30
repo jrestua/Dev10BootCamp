@@ -11,6 +11,8 @@ import com.joe.mp3library.dao.Mp3LibraryDaoFileImpl;
 import com.joe.mp3library.ui.Mp3LibraryView;
 import com.joe.mp3library.ui.UserIO;
 import com.joe.mp3library.ui.UserIOConsoleImpl;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
  *
@@ -19,11 +21,15 @@ import com.joe.mp3library.ui.UserIOConsoleImpl;
 public class App {
     //How the program starts
     public static void main(String[] args) {
-        UserIO myIo = new UserIOConsoleImpl();
-        Mp3LibraryView myView = new Mp3LibraryView(myIo);
-        Mp3LibraryDao myDao = new Mp3LibraryDaoFileImpl();
-        Mp3LibraryController controller
-                = new Mp3LibraryController(myDao, myView);
+      //  UserIO myIo = new UserIOConsoleImpl();
+        //Mp3LibraryView myView = new Mp3LibraryView(myIo);
+        //Mp3LibraryDao myDao = new Mp3LibraryDaoFileImpl();
+        //Mp3LibraryController controller
+          //      = new Mp3LibraryController(myDao, myView);
+        //controller.run();
+    
+            ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
+        Mp3LibraryController controller = ctx.getBean("controller", Mp3LibraryController.class);
         controller.run();
     }
 }
