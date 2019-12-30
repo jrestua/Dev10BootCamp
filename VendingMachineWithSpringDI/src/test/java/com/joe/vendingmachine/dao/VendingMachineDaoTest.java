@@ -6,6 +6,7 @@
 package com.joe.vendingmachine.dao;
 
 import com.joe.vendingmachine.dto.Inventory;
+import com.joe.vendingmachine.service.VendingMachineServiceLayer;
 import java.math.BigDecimal;
 import java.util.List;
 import org.junit.jupiter.api.AfterEach;
@@ -14,6 +15,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
  *
@@ -21,9 +24,15 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 public class VendingMachineDaoTest {
     
-    VendingMachineDao dao = new VendingMachineDaoFileImpl();
+    //VendingMachineDao dao = new VendingMachineDaoFileImpl();
+    private VendingMachineDao dao;
+    
     
     public VendingMachineDaoTest() {
+        
+        ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
+            dao =  ctx.getBean("vendingMachineDao", VendingMachineDao.class);
+        
     }
     
     @BeforeAll
