@@ -33,6 +33,9 @@ public class App {
         //VendingMachineController controller = new VendingMachineController(myService, myView);
         //controller.run();
         
+        //instantiates the application context, retrieves the Controller 
+        //from the context, and then invokes the run method on the Controller.
+        
         ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
         VendingMachineController controller = ctx.getBean("controller", VendingMachineController.class);
         controller.run();

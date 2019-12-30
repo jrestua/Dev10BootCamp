@@ -36,6 +36,9 @@ public class VendingMachineServiceLayerTest {
         
         //service = new VendingMachineServiceLayerImpl(dao, auditDao);
         
+        //instantiates the application context, retrieves the Controller 
+        //from the context, and then invokes the run method on the Controller.
+        
             ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
             service =  ctx.getBean("serviceLayer", VendingMachineServiceLayer.class);
         
