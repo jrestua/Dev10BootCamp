@@ -1,0 +1,28 @@
+-------------------------------------------------------------------------------
+Test set: dc527x.guessnumber.dao.GuessNumberDBDaoImplTest
+-------------------------------------------------------------------------------
+Tests run: 4, Failures: 0, Errors: 4, Skipped: 0, Time elapsed: 46.252 s <<< FAILURE! - in dc527x.guessnumber.dao.GuessNumberDBDaoImplTest
+testGetAllGames(dc527x.guessnumber.dao.GuessNumberDBDaoImplTest)  Time elapsed: 8.89 s  <<< ERROR!
+org.springframework.transaction.CannotCreateTransactionException: Could not open JDBC Connection for transaction; nested exception is java.sql.SQLNonTransientConnectionException: Public Key Retrieval is not allowed
+	at dc527x.guessnumber.dao.GuessNumberDBDaoImplTest.setUp(GuessNumberDBDaoImplTest.java:47)
+Caused by: java.sql.SQLNonTransientConnectionException: Public Key Retrieval is not allowed
+	at dc527x.guessnumber.dao.GuessNumberDBDaoImplTest.setUp(GuessNumberDBDaoImplTest.java:47)
+
+testNewGameGetGame(dc527x.guessnumber.dao.GuessNumberDBDaoImplTest)  Time elapsed: 0.947 s  <<< ERROR!
+org.springframework.transaction.CannotCreateTransactionException: Could not open JDBC Connection for transaction; nested exception is java.sql.SQLNonTransientConnectionException: Public Key Retrieval is not allowed
+	at dc527x.guessnumber.dao.GuessNumberDBDaoImplTest.setUp(GuessNumberDBDaoImplTest.java:47)
+Caused by: java.sql.SQLNonTransientConnectionException: Public Key Retrieval is not allowed
+	at dc527x.guessnumber.dao.GuessNumberDBDaoImplTest.setUp(GuessNumberDBDaoImplTest.java:47)
+
+testDeleteData(dc527x.guessnumber.dao.GuessNumberDBDaoImplTest)  Time elapsed: 1.055 s  <<< ERROR!
+org.springframework.transaction.CannotCreateTransactionException: Could not open JDBC Connection for transaction; nested exception is java.sql.SQLNonTransientConnectionException: Public Key Retrieval is not allowed
+	at dc527x.guessnumber.dao.GuessNumberDBDaoImplTest.setUp(GuessNumberDBDaoImplTest.java:47)
+Caused by: java.sql.SQLNonTransientConnectionException: Public Key Retrieval is not allowed
+	at dc527x.guessnumber.dao.GuessNumberDBDaoImplTest.setUp(GuessNumberDBDaoImplTest.java:47)
+
+testAddGetRounds(dc527x.guessnumber.dao.GuessNumberDBDaoImplTest)  Time elapsed: 1.008 s  <<< ERROR!
+org.springframework.transaction.CannotCreateTransactionException: Could not open JDBC Connection for transaction; nested exception is java.sql.SQLNonTransientConnectionException: Public Key Retrieval is not allowed
+	at dc527x.guessnumber.dao.GuessNumberDBDaoImplTest.setUp(GuessNumberDBDaoImplTest.java:47)
+Caused by: java.sql.SQLNonTransientConnectionException: Public Key Retrieval is not allowed
+	at dc527x.guessnumber.dao.GuessNumberDBDaoImplTest.setUp(GuessNumberDBDaoImplTest.java:47)
+
