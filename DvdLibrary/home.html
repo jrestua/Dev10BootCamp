@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>DVD Library</title>
+        <!-- Bootstrap core CSS -->
+        <link href="css/bootstrap.css"
+              rel="stylesheet">
+    </head>
+    <body>
+        <div class="container">
+            <h1>DVD Library</h1>
+                <div class="col-md-offset-4 col-md-8">
+                    <button type="button"
+                        id="add-button"
+                        class="btn btn-default">
+                        Add DVD
+                    </button>
+                </div>
+            <hr/>
+            <ul class="list-group" id="errorMessages"></ul>
+            <!--
+            Add a row to our container - this will hold the summary table and the new contact form.
+            -->
+            <div class="row">
+                <!-- #2: Add a col to hold the summary table - have it take up half the row -->
+                <div class="col-md-6">
+                    <div id="contactTableDiv">
+                        <h2>DVDs</h2>
+
+                        <table id="contactTable" class="table table-hover">
+                            <tr>
+                                <th width="20%">Title</th>
+                                <th width="20%">Release Date</th>
+                                <th width="20%">Director</th>
+                                <th width="20%">Rating</th>
+                                <th width="40%"> </th>
+                                <th width="15%"></th>
+                                <th width="15%"></th>
+                            </tr>
+                            <!--
+                             #3: This holds the list of contacts - we will add rows
+                            dynamically
+                             using jQuery
+                             -->
+                            <tbody id="contentRows"></tbody>
+                        </table>
+                    </div>
+                    <div id="editFormDiv" style="display: none">
+                        <h2>Edit Contact</h2>
+
+                        <form class="form-horizontal" role="form" id="edit-form">
+                            <div class="form-group">
+                                <label for="edit-title" class="col-md-4 control-label">
+                                    Title:
+                                </label>
+
+                                <div class="col-md-8">
+                                    <input type="text"
+                                           class="form-control"
+                                           id="edit-title"
+                                           placeholder="Title" required/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="edit-release-year" class="col-md-4 control-label">
+                                    Release Year:
+                                </label>
+
+                                <div class="col-md-8">
+                                    <input type="text"
+                                           class="form-control"
+                                           id="edit-release-year"
+                                           placeholder="Release Year" required/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="edit-director" class="col-md-4 control-label">
+                                    Director:</label>
+
+                                <div class="col-md-8">
+                                    <input type="text"
+                                           class="form-control"
+                                           id="edit-director"
+                                           placeholder="Director"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="edit-rating" class="col-md-4 control-label">
+                                    Rating:</label>
+
+                                <div class="col-md-8">
+                                    <input type="text"
+                                           class="form-control"
+                                           id="edit-rating"
+                                           placeholder="Rating"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="edit-notes" class="col-md-4 control-label">
+                                    Notes:</label>
+
+                                <div class="col-md-8">
+                                    <input type="text"
+                                           class="form-control"
+                                           id="edit-notes"
+                                           placeholder="Notes"/>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-offset-4 col-md-4">
+                                    <input type="hidden" id="edit-contact-id">
+                                    <button type="button"
+                                            id="edit-cancel-button"
+                                            class="btn btn-default"
+                                            onclick="hideEditForm()">
+                                        Cancel
+                                    </button>
+                                </div>
+                                <div class="col-md-4">
+                                    <button type="button"
+                                            id="edit-button"
+                                            class="btn btn-default">
+                                        Edit DVD
+                                    </button>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                </div> <!-- End col div -->
+                <!--
+                #4: Add col to hold the new contact form - have it take up the other half of the row
+                -->
+                <div class="col-md-6">
+                    <h2>Add New DVD</h2>
+
+                    <form class="form-horizontal" role="form" id="add-form">
+                        <div class="form-group">
+                            <label for="add-title" class="col-md-4 control-label">
+                                Title:
+                            </label>
+
+                            <div class="col-md-8">
+                                <input type="text"
+                                       class="form-control"
+                                       id="add-title"
+                                       placeholder="Title" required/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="add-release-year" class="col-md-4 control-label">
+                                Release Year:
+                            </label>
+
+                            <div class="col-md-8">
+                                <input type="text"
+                                       class="form-control"
+                                       id="add-release-year"
+                                       placeholder="Release Year" required/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="add-director" class="col-md-4 control-label">
+                                Director:</label>
+
+                            <div class="col-md-8">
+                                <input type="text"
+                                       class="form-control"
+                                       id="add-director"
+                                       placeholder="Director"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="add-rating" class="col-md-4 control-label">
+                                Rating:</label>
+
+                            <div class="col-md-8">
+                                <input type="text"
+                                       class="form-control"
+                                       id="add-rating"
+                                       placeholder="Rating" required/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="add-notes" class="col-md-4 control-label">
+                                Notes:</label>
+
+                            <div class="col-md-8">
+                                <input type="text"
+                                       class="form-control"
+                                       id="add-notes"
+                                       placeholder="Notes"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-offset-4 col-md-8">
+                                <button type="button"
+                                        id="add-button"
+                                        class="btn btn-default">
+                                    Create DVD
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div> <!-- End col div -->
+            </div> <!-- End row div -->
+        </div>
+        <!-- #5: Placed at the end of the document so the pages load faster -->
+        <script src="js/jquery-2.2.4.min.js"></script>
+        <script src="js/bootstrap.js"></script>
+        <script src="js/dvdLibrary.js"></script>
+    </body>
+</html>
